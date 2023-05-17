@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/labellat"
+        android:id="@+id/lbllat"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -21,17 +21,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="0.00"
-        app:layout_constraintStart_toEndOf="@+id/labellat"
+        app:layout_constraintStart_toEndOf="@+id/lbllat"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/labellon"
+        android:id="@+id/lbllon"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="lon:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labellat" />
+        app:layout_constraintTop_toBottomOf="@+id/lbllat" />
 
     <TextView
         android:id="@+id/lon"
@@ -39,92 +39,84 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="0.00"
-        app:layout_constraintStart_toEndOf="@+id/labellon"
+        app:layout_constraintStart_toEndOf="@+id/lbllon"
         app:layout_constraintTop_toBottomOf="@+id/lat" />
 
     <TextView
-        android:id="@+id/labelaltitude"
+        android:id="@+id/lblaltitude"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Altitude:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labellon" />
+        app:layout_constraintTop_toBottomOf="@+id/lbllon" />
 
     <TextView
         android:id="@+id/altitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.00"
-        app:layout_constraintStart_toEndOf="@+id/labelaltitude"
-        app:layout_constraintTop_toTopOf="@+id/labelaltitude" />
+        app:layout_constraintStart_toEndOf="@+id/lblaltitude"
+        app:layout_constraintTop_toTopOf="@+id/lblaltitude" />
 
     <TextView
-        android:id="@+id/labelaccuracy"
+        android:id="@+id/lblaccuracy"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Accuracy:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelaltitude" />
+        app:layout_constraintTop_toBottomOf="@+id/lblaltitude" />
 
     <TextView
         android:id="@+id/accuracy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.00"
-        app:layout_constraintStart_toEndOf="@+id/labelaccuracy"
-        app:layout_constraintTop_toTopOf="@+id/labelaccuracy" />
+        app:layout_constraintStart_toEndOf="@+id/lblaccuracy"
+        app:layout_constraintTop_toTopOf="@+id/lblaccuracy" />
 
     <TextView
-        android:id="@+id/labelspeed"
+        android:id="@+id/lblspeed"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Speed:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelaccuracy" />
+        app:layout_constraintTop_toBottomOf="@+id/lblaccuracy" />
 
     <TextView
         android:id="@+id/speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0.00"
-        app:layout_constraintStart_toEndOf="@+id/labelspeed"
-        app:layout_constraintTop_toTopOf="@+id/labelspeed" />
+        app:layout_constraintStart_toEndOf="@+id/lblspeed"
+        app:layout_constraintTop_toTopOf="@+id/lblspeed" />
 
     <TextView
-        android:id="@+id/labelsensor"
+        android:id="@+id/lbladdress"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Sensor:"
+        android:text="Address:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gps" />
+        app:layout_constraintTop_toBottomOf="@+id/lblspeed" />
 
     <TextView
-        android:id="@+id/sensor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cell Tower + Wifi"
-        app:layout_constraintStart_toEndOf="@+id/labelsensor"
-        app:layout_constraintTop_toTopOf="@+id/labelsensor" />
+        android:id="@+id/address"
+        android:layout_width="280dp"
+        android:layout_height="38dp"
+        app:layout_constraintStart_toEndOf="@+id/lbladdress"
+        app:layout_constraintTop_toTopOf="@+id/lbladdress" />
 
-    <TextView
-        android:id="@+id/labelupdates"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Updates:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locationsUpdates" />
-
-    <TextView
-        android:id="@+id/updates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Off"
-        app:layout_constraintStart_toEndOf="@+id/labelupdates"
-        app:layout_constraintTop_toTopOf="@+id/labelupdates" />
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="30dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@id/lbladdress"
+        tools:layout_editor_absoluteX="1dp" />
 
     <Switch
         android:id="@+id/locationsUpdates"
@@ -137,6 +129,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
+    <TextView
+        android:id="@+id/lblupdates"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Updates:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationsUpdates" />
+
+    <TextView
+        android:id="@+id/updates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location is being tracked"
+        app:layout_constraintStart_toEndOf="@+id/lblupdates"
+        app:layout_constraintTop_toTopOf="@+id/lblupdates" />
+
     <Switch
         android:id="@+id/gps"
         android:layout_width="wrap_content"
@@ -145,31 +154,66 @@
         android:text="GPS/SavePower"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelupdates" />
+        app:layout_constraintTop_toBottomOf="@+id/lblupdates" />
 
     <TextView
-        android:id="@+id/address"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/lbladdress"
-        app:layout_constraintTop_toTopOf="@+id/lbladdress" />
-
-    <TextView
-        android:id="@+id/lbladdress"
+        android:id="@+id/lblsensor"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Address:"
+        android:text="Sensor:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelspeed" />
+        app:layout_constraintTop_toBottomOf="@+id/gps" />
 
-    <View
-        android:id="@+id/divider"
+    <TextView
+        android:id="@+id/sensor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cell Tower + Wifi"
+        app:layout_constraintStart_toEndOf="@+id/lblsensor"
+        app:layout_constraintTop_toTopOf="@+id/lblsensor" />
+
+    <TextView
+        android:id="@+id/lblWaypoints"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Waypoints:"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sensor"/>
+
+    <TextView
+        android:id="@+id/countOfMarkers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        app:layout_constraintTop_toTopOf="@id/lblWaypoints"
+        app:layout_constraintStart_toEndOf="@id/lblWaypoints"/>
+
+    <Button
+        android:id="@+id/btnNewWaypoint"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="32dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/address"
-        tools:layout_editor_absoluteX="1dp" />
+        android:layout_height="wrap_content"
+        android:text="New Waypoint"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toTopOf="@id/btnShowWaypointList"/>
+
+    <Button
+        android:id="@+id/btnShowWaypointList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Waypoint List"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toTopOf="@id/btnMap"/>
+
+    <Button
+        android:id="@+id/btnMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Map"
+        android:layout_marginBottom="4dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

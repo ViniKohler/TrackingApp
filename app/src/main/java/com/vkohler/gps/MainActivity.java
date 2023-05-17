@@ -8,20 +8,26 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.vkohler.gps.databinding.ActivityMainBinding;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FusedLocationProviderClient fusedLocationProviderClient;
 
     LocationRequest locationRequest;
+    LocationCallback locationCallBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setLocationRequest();
-        binding.gps.setOnClickListener(v -> {
-            TextView sensor = binding.sensor;
-            if (binding.gps.isChecked()) {
-                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-                sensor.setText("Using GPS sensors");
-            } else {
-                locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-                sensor.setText("Using Towers + WIFI");
-            }
-        });
+        setLocationCallBack();
+        setListeners();
+        updateGPS();
     }
 
     @Override
@@ -64,6 +63,16 @@ public class MainActivity extends AppCompatActivity {
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
+    private void setLocationCallBack() {
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                updateUIValues(Objects.requireNonNull(locationResult.getLastLocation()));
+            }
+        };
+    }
+
     private void updateGPS() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -82,6 +91,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUIValues(Location location) {
-        
+        binding.lat.setText(String.valueOf(location.getLatitude()));
+        binding.lon.setText(String.valueOf(location.getLongitude()));
+        binding.accuracy.setText(String.valueOf(location.getAccuracy()));
+
+        if(location.hasAltitude()) {
+            binding.altitude.setText(String.valueOf(location.getAltitude()));
+        } else {
+            binding.altitude.setText("Not availabe");
+        }
+
+        if(location.hasSpeed()) {
+            binding.speed.setText(String.valueOf(location.getSpeed()));
+        } else {
+            binding.speed.setText("Not availabe");
+        }
+    }
+
+    private void setListeners() {
+        binding.gps.setOnClickListener(v -> {
+            TextView sensor = binding.sensor;
+            if (binding.gps.isChecked()) {
+                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                sensor.setText("Using GPS sensors");
+            } else {
+                locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+                sensor.setText("Using Towers + WIFI");
+            }
+        });
+
+        binding.locationsUpdates.setOnClickListener(v -> {
+            if(binding.locationsUpdates.isChecked()) {
+                startLocationUpdates();
+            } else {
+                stopLocationUpdates();
+            }
+        });
+    }
+
+    private void stopLocationUpdates() {
+        binding.updates.setText("Location is not being tracked");
+        binding.lat.setText("Not tracking location");
+        binding.lon.setText("Not tracking location");
+        binding.speed.setText("Not tracking location");
+        binding.accuracy.setText("Not tracking location");
+        binding.address.setText("Not tracking location");
+        binding.accuracy.setText("Not tracking location");
+        binding.altitude.setText("Not tracking location");
+        binding.sensor.setText("Not tracking location");
+
+        fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
+    }
+
+    private void startLocationUpdates() {
+        binding.updates.setText("Location is being tracked");
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);
+        updateGPS();
     }
 }

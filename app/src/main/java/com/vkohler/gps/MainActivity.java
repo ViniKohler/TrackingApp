@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.vkohler.gps.databinding.ActivityMainBinding;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -105,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
             binding.speed.setText(String.valueOf(location.getSpeed()));
         } else {
             binding.speed.setText("Not availabe");
+        }
+
+        Geocoder geocoder = new Geocoder(MainActivity.this);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            binding.address.setText(addresses.get(0).getAddressLine(0));
+        } catch (Exception e) {
+            binding.address.setText("Unable to get street address");
         }
     }
 

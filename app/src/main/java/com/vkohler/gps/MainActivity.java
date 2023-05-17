@@ -4,13 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,25 +23,26 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.vkohler.gps.databinding.ActivityMainBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FusedLocationProviderClient fusedLocationProviderClient;
-
     LocationRequest locationRequest;
     LocationCallback locationCallBack;
+    Location currentLocation;
+    List<Location> savedLocations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        setListeners();
         setLocationRequest();
         setLocationCallBack();
-        setListeners();
         updateGPS();
     }
 
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Location location) {
                     updateUIValues(location);
+                    currentLocation = location;
                 }
             });
         } else {
@@ -112,14 +115,26 @@ public class MainActivity extends AppCompatActivity {
 
         Geocoder geocoder = new Geocoder(MainActivity.this);
         try {
-            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            binding.address.setText(addresses.get(0).getAddressLine(0));
+            List<Address> addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            binding.address.setText(addressList.get(0).getAddressLine(0));
         } catch (Exception e) {
             binding.address.setText("Unable to get street address");
         }
+
+//        Addresses addresses = (Addresses)getApplicationContext();
+//        savedLocations = Addresses.getMyLocations();
+//        binding.markersCount.setText(String.valueOf(savedLocations.size()));
     }
 
     private void setListeners() {
+        binding.locationsUpdates.setOnClickListener(v -> {
+            if(binding.locationsUpdates.isChecked()) {
+                startLocationUpdates();
+            } else {
+                stopLocationUpdates();
+            }
+        });
+
         binding.gps.setOnClickListener(v -> {
             TextView sensor = binding.sensor;
             if (binding.gps.isChecked()) {
@@ -131,12 +146,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        binding.locationsUpdates.setOnClickListener(v -> {
-            if(binding.locationsUpdates.isChecked()) {
-                startLocationUpdates();
-            } else {
-                stopLocationUpdates();
-            }
+        binding.btnNewWaypoint.setOnClickListener(v -> {
+            Addresses addresses = (Addresses)getApplicationContext();
+            savedLocations = Addresses.getMyLocations();
+            savedLocations.add(currentLocation);
+            binding.markersCount.setText(String.valueOf(savedLocations.size()));
+        });
+
+        binding.btnShowWaypointList.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, WaypointsList.class);
+            startActivity(intent);
         });
     }
 
@@ -154,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         fusedLocationProviderClient.removeLocationUpdates(locationCallBack);
     }
 
+    @SuppressLint("MissingPermission")
     private void startLocationUpdates() {
         binding.updates.setText("Location is being tracked");
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallBack, null);

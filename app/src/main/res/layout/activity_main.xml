@@ -183,7 +183,7 @@
         app:layout_constraintTop_toBottomOf="@id/sensor"/>
 
     <TextView
-        android:id="@+id/countOfMarkers"
+        android:id="@+id/markersCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"
@@ -204,10 +204,10 @@
         android:layout_height="wrap_content"
         android:text="Show Waypoint List"
         android:layout_marginHorizontal="16dp"
-        app:layout_constraintBottom_toTopOf="@id/btnMap"/>
+        app:layout_constraintBottom_toTopOf="@id/btnShowMap"/>
 
     <Button
-        android:id="@+id/btnMap"
+        android:id="@+id/btnShowMap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Show Map"
